@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<!--
+	Noah Ford
+	Multitude of sens and fov conversions for use with video games
+-->
+
+<html lang="en">
+<head>
+	<title>FOV and Sensitivity Converter</title>
+	<meta charset="utf-8">
+	<style>
+		body {background-color: #1c1e1f; color: #c0bebc}
+		input, textarea {background-color: #40444b}
+		a {color: #2a84e8}
+		table, th {border: .01em solid grey}
+		main {font-family: sans-serif}
+		td {text-align: right}
+		img {width: 25%}
+	</style>
+	<script>
+		function help0()
+		{
+			alert("Required for output 0 and 3. Insert your current hipfire cm/360. This can be found by going to Kovaaks, selecting your current game, sensitivity, and dpi. If your game is not listed in Kovaaks; then you can go to 'Measure any game', 'Record', do a 360, and then enter your dpi.");
+		}
+		function help1()
+		{
+			alert("Required for output 0 and 3. Insert your current horizontal unscoped FOV. This can be commonly found through in-game settings, or through Google. The FOV that you find in settings may be vertical FOV, this is likely if the number is smaller than 90 or so. To convert this to horizontal FOV, insert the vertical FOV into input 7 in this calculator, this will then give your horizontal FOV in output 2. Alternatively, you can calculate your FOV by first inserting your cm to edge of screen in input 6, this can be found by going to Kovaaks, clicking 'Measure any game', 'Record', aiming to an object on the very edge of the screen, and entering your dpi. The number that Kovaaks gives as your cm/360 will actually be your cm to edge of screen. Second, insert your hipfire cm/360 into input 3. Your horizontal FOV will then be given by output 1.");
+		}
+		function help2()
+		{
+			alert("Required for 2, 4, and 5. Insert the horizontal portion of your aspect ratio, 4, 16, or 21 respectively from the common ratios of 4:3, 16:9, or 21:9. Your horizontal resolution will also work, 1920 from 1920x1080 for example. Either option will work, all that matters is that the ratio is correct.");
+		}
+		function help3()
+		{
+			alert("Required for output 1 and 4. Insert cm/360, either scoped or hipfire depending on desired output. This can be found by going to Kovaaks, selecting your current game, sensitivity, and dpi. If your game is not listed in Kovaaks or if you are using scoped FOV; then you can go to 'Measure any game', 'Record', do a 360, and then enter your dpi.");
+		}
+		function help4()
+		{
+			alert("Required for output 0 and 3. Insert your scoped cm/360. This can be found by going to Kovaaks, 'Measure any game', 'Record', do a 360 while scoped, and then enter your dpi.");
+		}
+		function help5()
+		{
+			alert("Required for output 2, 4, and 5. Insert the vertical portion of your aspect ratio, 3, 9, or 9 respectively from the common ratios of 4:3, 16:9, or 21:9. Your vertical resolution will also work, 1080 from 1920x1080 for example. Either option will work, all that matters is that the ratio is correct.");
+		}
+		function help6()
+		{
+			alert("Required for output 1 and 4. Insert your cm to edge of screen. This can be found by going to Kovaaks, clicking 'Measure any game', 'Record', aiming to an object on the very edge of the screen, and entering your dpi. The number that Kovaaks gives as your cm/360 will actually be your cm to edge of screen.");
+		}
+		function help7()
+		{
+			alert("Required for output 2 and 5. Insert an FOV number to convert it to horizontal and vertical equivalents. This can be useful to get the horizontonal FOV values that are used in the calculations on this tool. The Kovaaks FOV measurements aren't perfect, some games use vertical FOV values instead of horizontal, so you can round to the nearest whole vertical number to get the true FOV that the game uses.");
+		}
+		function help8()
+		{
+			alert("Required for output 6. Insert your Overwatch sens, you can convert other games to Overwatch sensitivity through Kovaaks as well other online converters.");
+		}
+		function help9()
+		{
+			alert("Required for output 0 and 3. Insert the desired monitor percentage that you want to feel accurate when scoped. See reference image for a visual representation. This measurement can be thought of as a line going from the center of the crosshair to the edge of the screen, with 0% being at the crosshair and 100% being the edge of the screen. This line is the radius of a circle. Flicking to the edge of this circle will feel the same as if you were hipfiring. Flicks inside of the edge of the circle will feel fast and flicks outside will feel slow. In games where you will primarily be holding angles, a smaller percentage may be preferable. In games where you will be aiming at much larger angles, a higher percentage could feel more comfortable. Typically a value 0-50% will work best as it is assumed that you should be aiming generally where your target will be coming from.");
+		}
+		function helpo0()
+		{
+			alert("Requires inputs 0, 1, 4, and 9. This output is what your scoped cm/360 should be to match the desired accurate screen percentage. You will change your scoped sensitivity through in-game settings, use this cm/360 output as a guide that you should try to get as close as possible to.");
+		}
+		function helpo1()
+		{
+			alert("Requires inputs 3 and 6. This output is your horizontal scoped FOV. This can then be inserted into input 4 to calculate the correct scoped sensitivity.");
+		}
+		function helpo2()
+		{
+			alert("Requires inputs 2, 5, and 7. This output is the converted horizontal FOV from input 7. This can then be used for inputs 1 or 4. YOU SHOULD ONLY USE THIS IF THE VALUE INSERTED WAS VERTICAL FOV.");
+		}
+		function helpo3()
+		{
+			alert("Requires inputs 0, 1, 4, and 9. This output is ratio between your hipfire sensitivity and scoped sensitivity, depending on your desired accurate screen percentage. Some games, such as Overwatch, will use this value directly. Otherwise, manually finding your scoped sensitivity using output 0 may be necessary.");
+		}
+		function helpo4()
+		{
+			alert("Requires inputs 2, 3, 5, and 6. This output is your vertical scoped FOV. This value should only be used as a reference for a more accurate measurement. It can be assumed that a game uses vertical FOV measurements if this value is closer to a whole number than the value from output 1. If this is the case, round to the nearest whole number to get the true vertical FOV. This integer can then be inserted into input 7 to get the horizontal FOV to use in other calculations.");
+		}
+		function helpo5()
+		{
+			alert("Requires inputs 2, 5, and 7. This output is the converted vertical FOV from input 7. This value should only be used as a reference for a more accurate measurement if you believe that a game uses vertical FOV. It can be assumed that a game uses vertical FOV measurements if this value is closer to a whole number than the value from output 2. If this is the case, round to the nearest whole number to get the true vertical FOV.");
+		}
+		function helpo6()
+		{
+			alert("Requires input 8. This output is the Minecraft sensitivity that matches your Overwatch sensitivity. This conversion is accurate for pre-1.13 Minecraft as the conversion was changed slightly after this version. However, this should still be very similar even when used in post-1.13 Minecraft.");
+		}
+		function calc()
+		{
+			let monW = document.getElementById("monW").value;
+			let monH = document.getElementById("monH").value;
+			let monRatio = document.getElementById("monRatio").value;
+			let sensHip = document.getElementById("sensHip").value;
+			let sens2 = document.getElementById("sens2").value;
+			let sensEdge = document.getElementById("sensEdge").value;
+			let owSens = document.getElementById("owSens").value;
+			let fovHip = document.getElementById("fovHip").value;
+			let fovScope = document.getElementById("fovScope").value;
+			let fovUn = document.getElementById("fovUn").value;
+			
+			let rFovHip = fovHip * (Math.PI / 180);
+			let rFovScope = fovScope * (Math.PI / 180);
+			let pMonRatio = monRatio / 100;
+			
+			if(monRatio == 0)
+			{
+				document.getElementById("sensRatio").value = Math.tan(rFovScope / 2) / Math.tan(rFovHip / 2);
+				document.getElementById("sensNew").value = sensHip / (Math.tan(rFovScope / 2) / Math.tan(rFovHip / 2));
+			}
+			else
+			{
+				document.getElementById("sensRatio").value = Math.atan(pMonRatio * Math.tan(rFovScope / 2)) / Math.atan(pMonRatio * Math.tan(rFovHip / 2));
+				document.getElementById("sensNew").value = sensHip / (Math.atan(pMonRatio * Math.tan(rFovScope / 2)) / Math.atan(pMonRatio * Math.tan(rFovHip / 2)));
+			}
+			document.getElementById("hFovScope").value = (720 * sensEdge) / sens2;
+			let rVFovScope = document.getElementById("hFovScope").value * (Math.PI / 180);
+			document.getElementById("vFovScope").value = (2 * Math.atan((Math.tan(rVFovScope / 2)) * (monH / monW))) * (180 / Math.PI);
+			let rFovUn = fovUn * (Math.PI / 180);
+			document.getElementById("hFovUn").value = (2 * Math.atan((Math.tan(rFovUn / 2)) * (monW / monH))) * (180 / Math.PI);
+			document.getElementById("vFovUn").value = (2 * Math.atan((Math.tan(rFovUn / 2)) * (monH / monW))) * (180 / Math.PI);
+			document.getElementById("mcSens").value = (0.291663 * Math.pow(owSens, 0.334258)) - (0.0000159835 * owSens) - 0.331903;
+		}
+	</script>
+</head>
+<body>
+	<main>
+		<h3>Documentation</h3>
+		
+		<p>This program is best used in conjunction with Kovaak's Sensitivity Matcher which can be found <a href="https://www.kovaak.com/sensitivity-matcher/">HERE.</a><br>
+		The important information that you get from this program is cm/360 which can be found by clicking "Physical Stats" in the bottom right corner of the screen.<br>
+		Once your DPI and sensitivity for the correct game are entered, your cm/360 will be given and can be copied and pasted into this conversion webpage.<br>
+		This measurement can be used in an advanced way by measuring the cm/360 distance while scoped, or getting the cm to the edge of screen for FOV calculations.<br>
+		This can be done by dropping down the game selection menu and clicking "Measure any game" at the top, clicking "Record" immediately to the right of the dropdown menu,<br>
+		and then moving your crosshair to the desired location; either the edge of screen or a full 360.<br>
+		More in-depth definitions and explanations of each measurement can be found by clicking the "?" button next to each text box.<br>
+		Once you have entered the information needed for each calculation, click the calculate button to get the conversions!</p>
+		
+		<figure>
+			<img src="https://cdn.discordapp.com/attachments/564543536947789854/819658283475664956/KovaakSensMatcherReferenceForConversionWebpage.png" alt="Image of Kovaak Matcher" >
+			<figcaption>Reference Image of Kovaak Sensitivity Matcher</figcaption>
+		</figure>
+		
+		<figure>
+			<img src="https://cdn.discordapp.com/attachments/564543536947789854/819602386011422810/ScreenRatioExamplesForConversionWebpage.png" alt="Screen % Image">
+			<figcaption>Reference Image of Screen %</figcaption>
+		</figure>
+		
+		<h3>Calculator</h3>
+
+		<table>
+			<caption>Input Values:</caption>
+			<tr>
+				<td><label for="sensHip">0. Current/Hipfire cm/360:</label><input type="text" name="sensHip" id="sensHip" value="0" size="5">
+				<input type="submit" value="?" onclick="help0()"></td>
+				
+				<td><label for="fovHip">1. Current/Hipfire FOV:</label><input type="text" name="fovHip" id="fovHip" value="0" size="5">
+				<input type="submit" value="?" onclick="help1()"></td>
+				
+				<td><label for="monW">2. Horizontal Aspect Ratio:</label><input type="text" name="monW" id="monW" value="16" size="5">
+				<input type="submit" value="?" onclick="help2()"></td>
+			</tr>
+			<tr>
+				<td><label for="sens2">3. FOV calc cm/360:</label><input type="text" name="sens2" id="sens2" value="0" size="5">
+				<input type="submit" value="?" onclick="help3()"></td>
+				
+				<td><label for="fovScope">4. New/Scoped FOV:</label><input type="text" name="fovScope" id="fovScope" value="0" size="5">
+				<input type="submit" value="?" onclick="help4()"></td>
+				
+				<td><label for="monH">5. Vertical Aspect Ratio:</label><input type="text" name="monH" id="monH" value="9" size="5">
+				<input type="submit" value="?" onclick="help5()"></td>
+			</tr>
+			<tr>
+				<td><label for="sensEdge">6. cm to Edge of Screen:</label><input type="text" name="sensEdge" id="sensEdge" value="0" size="5">
+				<input type="submit" value="?" onclick="help6()"></td>
+				
+				<td><label for="fovUn">7. Unknown H or V FOV:</label><input type="text" name="fovUn" id="fovUn" value="0" size="5">
+				<input type="submit" value="?" onclick="help7()"></td>
+				
+				<td><label for="owSens">8. Overwatch Sens:</label><input type="text" name="owSens" id="owSens" value="0" size="5">
+				<input type="submit" value="?" onclick="help8()"></td>
+			</tr>
+			<tr>
+				<td></td>
+				
+				<td><label for="monRatio">9. % of monitor to accurately flick to:</label><input type="text" name="monRatio" id="monRatio" value="0" size="5">
+				<input type="submit" value="?" onclick="help9()"></td>
+				
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				
+				<td><input type="submit" name="button" id="button" value="Calculate" onclick="calc()"></td>
+				
+				<td></td>
+			</tr>
+		</table>
+		
+		<br>
+		
+		<table>
+			<caption>Output Values:</caption>
+			<tr>
+				<td><label for="sensNew">0. New/Scoped cm/360:</label><input type="text" name="sensNew" id="sensNew" size="5" disabled>
+				<input type="submit" value="?" onclick="helpo0()"></td>
+				
+				<td><label for="hFovScope">1. Scoped Horizontal FOV:</label><input type="text" name="hFovScope" id="hFovScope" size="5" disabled>
+				<input type="submit" value="?" onclick="helpo1()"></td>
+				
+				<td><label for="hFovUn">2. Converted Horizontal FOV:</label><input type="text" name="hFovUn" id="hFovUn" size="5" disabled>
+				<input type="submit" value="?" onclick="helpo2()"></td>
+			</tr>
+			<tr>
+				<td><label for="sensRatio">3. Sensitivity Ratio:</label><input type="text" name="sensRatio" id="sensRatio" size="5" disabled>
+				<input type="submit" value="?" onclick="helpo3()"></td>
+				
+				<td><label for="vFovScope">4. Scoped Vertical FOV:</label><input type="text" name="vFovScope" id="vFovScope" size="5" disabled>
+				<input type="submit" value="?" onclick="helpo4()"></td>
+				
+				<td><label for="vFovUn">5. Converted Vertical FOV:</label><input type="text" name="vFovUn" id="vFovUn" size="5" disabled>
+				<input type="submit" value="?" onclick="helpo5()"></td>
+			</tr>
+			<tr>
+				<td><label for="mcSens">6. Minecraft Sensitivity:</label><input type="text" name="mcSens" id="mcSens" size="5" disabled>
+				<input type="submit" value="?" onclick="helpo6()"></td>
+				
+				<td></td>
+				
+				<td></td>
+			</tr>
+		</table>
+	</main>
+</body>
+</html>
